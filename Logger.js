@@ -18,6 +18,7 @@ class Logger {
         this.defaultLogData = this.buildDefaultLogData(request)
         this.metaDetails = {}
         this.logs = []
+        this.ip = request.headers.get('CF-Connecting-IP');
     }
 
     /**
@@ -32,7 +33,7 @@ class Logger {
             'meta': {
                 'ua': request.headers.get('user-agent'),
                 'referer': request.headers.get('Referer') || 'empty',
-                'ip': request.headers.get('CF-Connecting-IP'),
+                //'ip': request.headers.get('CF-Connecting-IP'),
                 'countryCode': (request.cf || {}).country,
                 'colo': (request.cf || {}).colo,
                 'url': request.url,
@@ -125,6 +126,7 @@ class Logger {
             await fetch('https://logs.logdna.com/logs/ingest?'
                 + 'tag='+ tagName
                 + '&hostname=' + hostname
+                + '&ip=' + this.ip
                 + '&now=' + time,
                 {
                     method: 'POST',
