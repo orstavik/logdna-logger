@@ -35,6 +35,7 @@ class Logger {
                 'ip': request.headers.get('CF-Connecting-IP'),
                 'countryCode': (request.cf || {}).country,
                 'colo': (request.cf || {}).colo,
+                'workerId': request.headers.get('cf-request-id')?.substr(10,8),
                 'url': request.url,
                 'method': request.method,
                 'x_forwarded_for': request.headers.get('x_forwarded_for') || "0.0.0.0",
