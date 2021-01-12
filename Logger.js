@@ -117,6 +117,9 @@ class Logger {
         myHeaders.append('apikey', token)
 
         // add the executionTime to each of the logs for visibility
+        // Att!! The Cloudflare runtime mostly disables Date.now().
+        // https://blog.cloudflare.com/mitigating-spectre-and-other-security-threats-the-cloudflare-workers-security-model/#step1disallowtimersandmultithreading
+        // execution time do therefore only update after the worker receives a network response.
         this.logs.forEach(log => {
             log.meta.executionTime = time - this.requestStartTime
         })
